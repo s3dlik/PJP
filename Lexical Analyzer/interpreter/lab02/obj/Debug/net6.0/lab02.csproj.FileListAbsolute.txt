@@ -1,0 +1,15 @@
+D:\VYSOKA\6semestr\PJP\lab02\lab02\lab02\bin\Debug\net6.0\lab02.exe
+D:\VYSOKA\6semestr\PJP\lab02\lab02\lab02\bin\Debug\net6.0\lab02.deps.json
+D:\VYSOKA\6semestr\PJP\lab02\lab02\lab02\bin\Debug\net6.0\lab02.runtimeconfig.json
+D:\VYSOKA\6semestr\PJP\lab02\lab02\lab02\bin\Debug\net6.0\lab02.dll
+D:\VYSOKA\6semestr\PJP\lab02\lab02\lab02\bin\Debug\net6.0\ref\lab02.dll
+D:\VYSOKA\6semestr\PJP\lab02\lab02\lab02\bin\Debug\net6.0\lab02.pdb
+D:\VYSOKA\6semestr\PJP\lab02\lab02\lab02\obj\Debug\net6.0\lab02.csproj.AssemblyReference.cache
+D:\VYSOKA\6semestr\PJP\lab02\lab02\lab02\obj\Debug\net6.0\lab02.GeneratedMSBuildEditorConfig.editorconfig
+D:\VYSOKA\6semestr\PJP\lab02\lab02\lab02\obj\Debug\net6.0\lab02.AssemblyInfoInputs.cache
+D:\VYSOKA\6semestr\PJP\lab02\lab02\lab02\obj\Debug\net6.0\lab02.AssemblyInfo.cs
+D:\VYSOKA\6semestr\PJP\lab02\lab02\lab02\obj\Debug\net6.0\lab02.csproj.CoreCompileInputs.cache
+D:\VYSOKA\6semestr\PJP\lab02\lab02\lab02\obj\Debug\net6.0\lab02.dll
+D:\VYSOKA\6semestr\PJP\lab02\lab02\lab02\obj\Debug\net6.0\ref\lab02.dll
+D:\VYSOKA\6semestr\PJP\lab02\lab02\lab02\obj\Debug\net6.0\lab02.pdb
+D:\VYSOKA\6semestr\PJP\lab02\lab02\lab02\obj\Debug\net6.0\lab02.genruntimeconfig.cache

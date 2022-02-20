@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "dgSpecHash": "7EtccQQPwOY7bWj4PWZeXcHXVTiuN3qZFj4pVhP6PZJyXh3OI/YbzeDWJyoEL69xDqZKuwyIm4K33dIAIkdc7g==",
+  "success": true,
+  "projectFilePath": "D:\\git\\PJP\\Interpreter of Arithmetic Expressions\\expressions\\ukol01\\ukol01.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\filip\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\3.1.22\\microsoft.netcore.app.host.win-x64.3.1.22.nupkg.sha512",
+    "C:\\Users\\filip\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\3.1.10\\microsoft.aspnetcore.app.ref.3.1.10.nupkg.sha512",
+    "C:\\Users\\filip\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\3.1.0\\microsoft.windowsdesktop.app.ref.3.1.0.nupkg.sha512",
+    "C:\\Users\\filip\\.nuget\\packages\\microsoft.netcore.app.ref\\3.1.0\\microsoft.netcore.app.ref.3.1.0.nupkg.sha512"
+  ],
+  "logs": []
+}

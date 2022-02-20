@@ -1,0 +1,14 @@
+D:\VYSOKA\6semestr\PJP\ukol01\ukol01\ukol01\bin\Debug\netcoreapp3.1\ukol01.exe
+D:\VYSOKA\6semestr\PJP\ukol01\ukol01\ukol01\bin\Debug\netcoreapp3.1\ukol01.deps.json
+D:\VYSOKA\6semestr\PJP\ukol01\ukol01\ukol01\bin\Debug\netcoreapp3.1\ukol01.runtimeconfig.json
+D:\VYSOKA\6semestr\PJP\ukol01\ukol01\ukol01\bin\Debug\netcoreapp3.1\ukol01.runtimeconfig.dev.json
+D:\VYSOKA\6semestr\PJP\ukol01\ukol01\ukol01\bin\Debug\netcoreapp3.1\ukol01.dll
+D:\VYSOKA\6semestr\PJP\ukol01\ukol01\ukol01\bin\Debug\netcoreapp3.1\ukol01.pdb
+D:\VYSOKA\6semestr\PJP\ukol01\ukol01\ukol01\obj\Debug\netcoreapp3.1\ukol01.csproj.AssemblyReference.cache
+D:\VYSOKA\6semestr\PJP\ukol01\ukol01\ukol01\obj\Debug\netcoreapp3.1\ukol01.GeneratedMSBuildEditorConfig.editorconfig
+D:\VYSOKA\6semestr\PJP\ukol01\ukol01\ukol01\obj\Debug\netcoreapp3.1\ukol01.AssemblyInfoInputs.cache
+D:\VYSOKA\6semestr\PJP\ukol01\ukol01\ukol01\obj\Debug\netcoreapp3.1\ukol01.AssemblyInfo.cs
+D:\VYSOKA\6semestr\PJP\ukol01\ukol01\ukol01\obj\Debug\netcoreapp3.1\ukol01.csproj.CoreCompileInputs.cache
+D:\VYSOKA\6semestr\PJP\ukol01\ukol01\ukol01\obj\Debug\netcoreapp3.1\ukol01.dll
+D:\VYSOKA\6semestr\PJP\ukol01\ukol01\ukol01\obj\Debug\netcoreapp3.1\ukol01.pdb
+D:\VYSOKA\6semestr\PJP\ukol01\ukol01\ukol01\obj\Debug\netcoreapp3.1\ukol01.genruntimeconfig.cache
