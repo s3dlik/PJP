@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// Generated from D:\VYSOKA\6semestr\PJP\project\PLC_Lab9\PLC_Lab9_expr.g4 by ANTLR 4.6.6
+// Generated from D:\git\PJP\Project\PLC_Lab9\PLC_Lab9_expr.g4 by ANTLR 4.6.6
 
 // Unreachable code detected
 #pragma warning disable 0162
@@ -39,14 +39,6 @@ public interface IPLC_Lab9_exprVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitAdd([NotNull] PLC_Lab9_exprParser.AddContext context);
-
-	/// <summary>
-	/// Visit a parse tree produced by the <c>str</c>
-	/// labeled alternative in <see cref="PLC_Lab9_exprParser.expression"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitStr([NotNull] PLC_Lab9_exprParser.StrContext context);
 
 	/// <summary>
 	/// Visit a parse tree produced by the <c>par</c>
@@ -81,12 +73,28 @@ public interface IPLC_Lab9_exprVisitor<Result> : IParseTreeVisitor<Result> {
 	Result VisitBool([NotNull] PLC_Lab9_exprParser.BoolContext context);
 
 	/// <summary>
+	/// Visit a parse tree produced by the <c>string</c>
+	/// labeled alternative in <see cref="PLC_Lab9_exprParser.expression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitString([NotNull] PLC_Lab9_exprParser.StringContext context);
+
+	/// <summary>
 	/// Visit a parse tree produced by the <c>mul</c>
 	/// labeled alternative in <see cref="PLC_Lab9_exprParser.expression"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitMul([NotNull] PLC_Lab9_exprParser.MulContext context);
+
+	/// <summary>
+	/// Visit a parse tree produced by the <c>concat</c>
+	/// labeled alternative in <see cref="PLC_Lab9_exprParser.expression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitConcat([NotNull] PLC_Lab9_exprParser.ConcatContext context);
 
 	/// <summary>
 	/// Visit a parse tree produced by the <c>float</c>
@@ -103,14 +111,6 @@ public interface IPLC_Lab9_exprVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitInt([NotNull] PLC_Lab9_exprParser.IntContext context);
-
-	/// <summary>
-	/// Visit a parse tree produced by the <c>constantExpr</c>
-	/// labeled alternative in <see cref="PLC_Lab9_exprParser.expression"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitConstantExpr([NotNull] PLC_Lab9_exprParser.ConstantExprContext context);
 
 	/// <summary>
 	/// Visit a parse tree produced by the <c>identifierExpr</c>
@@ -212,17 +212,17 @@ public interface IPLC_Lab9_exprVisitor<Result> : IParseTreeVisitor<Result> {
 	Result VisitExpression([NotNull] PLC_Lab9_exprParser.ExpressionContext context);
 
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="PLC_Lab9_exprParser.constant"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitConstant([NotNull] PLC_Lab9_exprParser.ConstantContext context);
-
-	/// <summary>
 	/// Visit a parse tree produced by <see cref="PLC_Lab9_exprParser.datatype"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitDatatype([NotNull] PLC_Lab9_exprParser.DatatypeContext context);
+
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="PLC_Lab9_exprParser.comment"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitComment([NotNull] PLC_Lab9_exprParser.CommentContext context);
 }
 } // namespace PLC_Lab9

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "D2+ugaksSlt5KooSSIWVIZ1Ce7aW0JljzOctlNisjXQQfxL40gw93Z5k9O509hTCO3QTfBjaeTp2CA5tD861Gg==",
+  "dgSpecHash": "VpnTcwz4gQmPHWQbWIgodt4Ni2qyARv+LysBK2rIC2VeTqq4i9CQnVF3hhTTL4XLVfEoH0sDSkFovxTdsYr4yA==",
   "success": true,
-  "projectFilePath": "D:\\VYSOKA\\6semestr\\PJP\\project\\PLC_Lab9\\PLC_Lab9.csproj",
+  "projectFilePath": "D:\\git\\PJP\\Project\\PLC_Lab9\\PLC_Lab9.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\filip\\.nuget\\packages\\antlr4\\4.6.6\\antlr4.4.6.6.nupkg.sha512",
     "C:\\Users\\filip\\.nuget\\packages\\antlr4.codegenerator\\4.6.6\\antlr4.codegenerator.4.6.6.nupkg.sha512",

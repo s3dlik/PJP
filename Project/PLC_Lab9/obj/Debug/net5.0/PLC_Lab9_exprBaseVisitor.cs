@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// Generated from D:\VYSOKA\6semestr\PJP\project\PLC_Lab9\PLC_Lab9_expr.g4 by ANTLR 4.6.6
+// Generated from D:\git\PJP\Project\PLC_Lab9\PLC_Lab9_expr.g4 by ANTLR 4.6.6
 
 // Unreachable code detected
 #pragma warning disable 0162
@@ -45,18 +45,6 @@ public partial class PLC_Lab9_exprBaseVisitor<Result> : AbstractParseTreeVisitor
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	public virtual Result VisitAdd([NotNull] PLC_Lab9_exprParser.AddContext context) { return VisitChildren(context); }
-
-	/// <summary>
-	/// Visit a parse tree produced by the <c>str</c>
-	/// labeled alternative in <see cref="PLC_Lab9_exprParser.expression"/>.
-	/// <para>
-	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
-	/// on <paramref name="context"/>.
-	/// </para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	public virtual Result VisitStr([NotNull] PLC_Lab9_exprParser.StrContext context) { return VisitChildren(context); }
 
 	/// <summary>
 	/// Visit a parse tree produced by the <c>par</c>
@@ -107,6 +95,18 @@ public partial class PLC_Lab9_exprBaseVisitor<Result> : AbstractParseTreeVisitor
 	public virtual Result VisitBool([NotNull] PLC_Lab9_exprParser.BoolContext context) { return VisitChildren(context); }
 
 	/// <summary>
+	/// Visit a parse tree produced by the <c>string</c>
+	/// labeled alternative in <see cref="PLC_Lab9_exprParser.expression"/>.
+	/// <para>
+	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
+	/// on <paramref name="context"/>.
+	/// </para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	public virtual Result VisitString([NotNull] PLC_Lab9_exprParser.StringContext context) { return VisitChildren(context); }
+
+	/// <summary>
 	/// Visit a parse tree produced by the <c>mul</c>
 	/// labeled alternative in <see cref="PLC_Lab9_exprParser.expression"/>.
 	/// <para>
@@ -117,6 +117,18 @@ public partial class PLC_Lab9_exprBaseVisitor<Result> : AbstractParseTreeVisitor
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	public virtual Result VisitMul([NotNull] PLC_Lab9_exprParser.MulContext context) { return VisitChildren(context); }
+
+	/// <summary>
+	/// Visit a parse tree produced by the <c>concat</c>
+	/// labeled alternative in <see cref="PLC_Lab9_exprParser.expression"/>.
+	/// <para>
+	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
+	/// on <paramref name="context"/>.
+	/// </para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	public virtual Result VisitConcat([NotNull] PLC_Lab9_exprParser.ConcatContext context) { return VisitChildren(context); }
 
 	/// <summary>
 	/// Visit a parse tree produced by the <c>float</c>
@@ -141,18 +153,6 @@ public partial class PLC_Lab9_exprBaseVisitor<Result> : AbstractParseTreeVisitor
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	public virtual Result VisitInt([NotNull] PLC_Lab9_exprParser.IntContext context) { return VisitChildren(context); }
-
-	/// <summary>
-	/// Visit a parse tree produced by the <c>constantExpr</c>
-	/// labeled alternative in <see cref="PLC_Lab9_exprParser.expression"/>.
-	/// <para>
-	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
-	/// on <paramref name="context"/>.
-	/// </para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	public virtual Result VisitConstantExpr([NotNull] PLC_Lab9_exprParser.ConstantExprContext context) { return VisitChildren(context); }
 
 	/// <summary>
 	/// Visit a parse tree produced by the <c>identifierExpr</c>
@@ -310,17 +310,6 @@ public partial class PLC_Lab9_exprBaseVisitor<Result> : AbstractParseTreeVisitor
 	public virtual Result VisitExpression([NotNull] PLC_Lab9_exprParser.ExpressionContext context) { return VisitChildren(context); }
 
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="PLC_Lab9_exprParser.constant"/>.
-	/// <para>
-	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
-	/// on <paramref name="context"/>.
-	/// </para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	public virtual Result VisitConstant([NotNull] PLC_Lab9_exprParser.ConstantContext context) { return VisitChildren(context); }
-
-	/// <summary>
 	/// Visit a parse tree produced by <see cref="PLC_Lab9_exprParser.datatype"/>.
 	/// <para>
 	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
@@ -330,5 +319,16 @@ public partial class PLC_Lab9_exprBaseVisitor<Result> : AbstractParseTreeVisitor
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	public virtual Result VisitDatatype([NotNull] PLC_Lab9_exprParser.DatatypeContext context) { return VisitChildren(context); }
+
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="PLC_Lab9_exprParser.comment"/>.
+	/// <para>
+	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
+	/// on <paramref name="context"/>.
+	/// </para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	public virtual Result VisitComment([NotNull] PLC_Lab9_exprParser.CommentContext context) { return VisitChildren(context); }
 }
 } // namespace PLC_Lab9

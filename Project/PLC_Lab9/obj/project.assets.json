@@ -4270,11 +4270,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\VYSOKA\\6semestr\\PJP\\project\\PLC_Lab9\\PLC_Lab9.csproj",
+      "projectUniqueName": "D:\\git\\PJP\\Project\\PLC_Lab9\\PLC_Lab9.csproj",
       "projectName": "PLC_Lab9",
-      "projectPath": "D:\\VYSOKA\\6semestr\\PJP\\project\\PLC_Lab9\\PLC_Lab9.csproj",
+      "projectPath": "D:\\git\\PJP\\Project\\PLC_Lab9\\PLC_Lab9.csproj",
       "packagesPath": "C:\\Users\\filip\\.nuget\\packages\\",
-      "outputPath": "D:\\VYSOKA\\6semestr\\PJP\\project\\PLC_Lab9\\obj\\",
+      "outputPath": "D:\\git\\PJP\\Project\\PLC_Lab9\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\filip\\AppData\\Roaming\\NuGet\\NuGet.Config",

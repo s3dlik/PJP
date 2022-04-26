@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// Generated from D:\VYSOKA\6semestr\PJP\project\PLC_Lab9\PLC_Lab9_expr.g4 by ANTLR 4.6.6
+// Generated from D:\git\PJP\Project\PLC_Lab9\PLC_Lab9_expr.g4 by ANTLR 4.6.6
 
 // Unreachable code detected
 #pragma warning disable 0162
@@ -43,19 +43,6 @@ public interface IPLC_Lab9_exprListener : IParseTreeListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	void ExitAdd([NotNull] PLC_Lab9_exprParser.AddContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by the <c>str</c>
-	/// labeled alternative in <see cref="PLC_Lab9_exprParser.expression"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterStr([NotNull] PLC_Lab9_exprParser.StrContext context);
-	/// <summary>
-	/// Exit a parse tree produced by the <c>str</c>
-	/// labeled alternative in <see cref="PLC_Lab9_exprParser.expression"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitStr([NotNull] PLC_Lab9_exprParser.StrContext context);
 
 	/// <summary>
 	/// Enter a parse tree produced by the <c>par</c>
@@ -110,6 +97,19 @@ public interface IPLC_Lab9_exprListener : IParseTreeListener {
 	void ExitBool([NotNull] PLC_Lab9_exprParser.BoolContext context);
 
 	/// <summary>
+	/// Enter a parse tree produced by the <c>string</c>
+	/// labeled alternative in <see cref="PLC_Lab9_exprParser.expression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterString([NotNull] PLC_Lab9_exprParser.StringContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>string</c>
+	/// labeled alternative in <see cref="PLC_Lab9_exprParser.expression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitString([NotNull] PLC_Lab9_exprParser.StringContext context);
+
+	/// <summary>
 	/// Enter a parse tree produced by the <c>mul</c>
 	/// labeled alternative in <see cref="PLC_Lab9_exprParser.expression"/>.
 	/// </summary>
@@ -121,6 +121,19 @@ public interface IPLC_Lab9_exprListener : IParseTreeListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	void ExitMul([NotNull] PLC_Lab9_exprParser.MulContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by the <c>concat</c>
+	/// labeled alternative in <see cref="PLC_Lab9_exprParser.expression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterConcat([NotNull] PLC_Lab9_exprParser.ConcatContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>concat</c>
+	/// labeled alternative in <see cref="PLC_Lab9_exprParser.expression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitConcat([NotNull] PLC_Lab9_exprParser.ConcatContext context);
 
 	/// <summary>
 	/// Enter a parse tree produced by the <c>float</c>
@@ -147,19 +160,6 @@ public interface IPLC_Lab9_exprListener : IParseTreeListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	void ExitInt([NotNull] PLC_Lab9_exprParser.IntContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by the <c>constantExpr</c>
-	/// labeled alternative in <see cref="PLC_Lab9_exprParser.expression"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterConstantExpr([NotNull] PLC_Lab9_exprParser.ConstantExprContext context);
-	/// <summary>
-	/// Exit a parse tree produced by the <c>constantExpr</c>
-	/// labeled alternative in <see cref="PLC_Lab9_exprParser.expression"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitConstantExpr([NotNull] PLC_Lab9_exprParser.ConstantExprContext context);
 
 	/// <summary>
 	/// Enter a parse tree produced by the <c>identifierExpr</c>
@@ -318,17 +318,6 @@ public interface IPLC_Lab9_exprListener : IParseTreeListener {
 	void ExitExpression([NotNull] PLC_Lab9_exprParser.ExpressionContext context);
 
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="PLC_Lab9_exprParser.constant"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterConstant([NotNull] PLC_Lab9_exprParser.ConstantContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="PLC_Lab9_exprParser.constant"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitConstant([NotNull] PLC_Lab9_exprParser.ConstantContext context);
-
-	/// <summary>
 	/// Enter a parse tree produced by <see cref="PLC_Lab9_exprParser.datatype"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
@@ -338,5 +327,16 @@ public interface IPLC_Lab9_exprListener : IParseTreeListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	void ExitDatatype([NotNull] PLC_Lab9_exprParser.DatatypeContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="PLC_Lab9_exprParser.comment"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterComment([NotNull] PLC_Lab9_exprParser.CommentContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="PLC_Lab9_exprParser.comment"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitComment([NotNull] PLC_Lab9_exprParser.CommentContext context);
 }
 } // namespace PLC_Lab9

@@ -31,7 +31,7 @@ namespace PLC_Lab9
                 //Console.WriteLine(tree.ToStringTree(parser));
               
                 var result = new EvalVisitor().Visit(tree);
-                Console.WriteLine(result);
+                Console.WriteLine(result.Value);
                 VirtualMachine vm = new VirtualMachine(result.Value);
                 vm.Run();
             }
