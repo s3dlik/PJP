@@ -1,6 +1,0 @@
-D:\VYSOKA\6semestr\PJP\project\PLC_Lab9\obj\Debug\net5.0\PLC_Lab9_exprLexer.cs
-D:\VYSOKA\6semestr\PJP\project\PLC_Lab9\obj\Debug\net5.0\PLC_Lab9_exprParser.cs
-D:\VYSOKA\6semestr\PJP\project\PLC_Lab9\obj\Debug\net5.0\PLC_Lab9_exprListener.cs
-D:\VYSOKA\6semestr\PJP\project\PLC_Lab9\obj\Debug\net5.0\PLC_Lab9_exprBaseListener.cs
-D:\VYSOKA\6semestr\PJP\project\PLC_Lab9\obj\Debug\net5.0\PLC_Lab9_exprVisitor.cs
-D:\VYSOKA\6semestr\PJP\project\PLC_Lab9\obj\Debug\net5.0\PLC_Lab9_exprBaseVisitor.cs
