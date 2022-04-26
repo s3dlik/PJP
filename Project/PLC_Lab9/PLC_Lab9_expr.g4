@@ -1,0 +1,62 @@
+grammar PLC_Lab9_expr;
+
+/** The start rule; begin parsing here. */
+prog: input*;
+
+input: statement ';'
+    | ifStatement
+    | whileStatement
+    | write ';'
+    | read ';'
+    | ';'
+    ;
+
+statement : declaration | assignment | expression ;
+
+declaration: datatype IDENTIFIER (',' IDENTIFIER)* ;
+
+assignment: expression
+    | IDENTIFIER '=' assignment
+    ;
+
+write : 'write ' (fullSTRING)+ ;
+fullSTRING : STRING(',' expression ',')*(',' expression)* ;
+
+read: 'read' IDENTIFIER (',' IDENTIFIER)* ;
+
+ifStatement : 'if' ('expression') block ('else' elseStatement)* ;
+
+elseStatement: block
+    | ifStatement
+    ;
+
+whileStatement: 'while('expression')' block ;
+
+block : input
+    | '{'input+'}' ; 
+
+expression: constant            #constantExpr
+    | IDENTIFIER                #identifierExpr
+    | expression op=('*'|'/'|'%') expression    # mul
+    | expression op=('+'|'-') expression    # add
+    | STRING                    # str
+    | INT                       # int
+    | FLOAT                     # float
+    | BOOL                      # bool
+    | '(' expression ')'        # par
+    | expression compare=('>' | '<' | '==' | '!=') expression #compare
+    | expression boolOper=('||' | '&&') expression #boolOper
+    ;
+
+constant: ('-')? INTEGER | ('-')? FLOAT | STRING | BOOL | NULL;
+datatype: 'int' | 'string' | 'float' | 'bool';
+
+
+BOOL : 'true' | 'false' ;   // bool values
+INTEGER : [1-9]*[0-9]+ ;          // match integers
+FLOAT : [0-9]+'.'[0-9]+ ;   // match floats
+STRING : ('"' ~'"'* '"') ;
+NULL: 'null';
+IDENTIFIER: [a-zA-Z_][a-zA-Z0-9_]*;
+
+WS : [ \t\r\n]+ -> skip ;   // toss out whitespace

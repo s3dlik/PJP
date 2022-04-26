@@ -1,0 +1,15 @@
+D:\git\PJP\Computing sets FIRST and FOLLOW\FirstFollow\FirstFollow\bin\Debug\net6.0\FirstFollow.exe
+D:\git\PJP\Computing sets FIRST and FOLLOW\FirstFollow\FirstFollow\bin\Debug\net6.0\FirstFollow.deps.json
+D:\git\PJP\Computing sets FIRST and FOLLOW\FirstFollow\FirstFollow\bin\Debug\net6.0\FirstFollow.runtimeconfig.json
+D:\git\PJP\Computing sets FIRST and FOLLOW\FirstFollow\FirstFollow\bin\Debug\net6.0\FirstFollow.dll
+D:\git\PJP\Computing sets FIRST and FOLLOW\FirstFollow\FirstFollow\bin\Debug\net6.0\ref\FirstFollow.dll
+D:\git\PJP\Computing sets FIRST and FOLLOW\FirstFollow\FirstFollow\bin\Debug\net6.0\FirstFollow.pdb
+D:\git\PJP\Computing sets FIRST and FOLLOW\FirstFollow\FirstFollow\obj\Debug\net6.0\FirstFollow.csproj.AssemblyReference.cache
+D:\git\PJP\Computing sets FIRST and FOLLOW\FirstFollow\FirstFollow\obj\Debug\net6.0\FirstFollow.GeneratedMSBuildEditorConfig.editorconfig
+D:\git\PJP\Computing sets FIRST and FOLLOW\FirstFollow\FirstFollow\obj\Debug\net6.0\FirstFollow.AssemblyInfoInputs.cache
+D:\git\PJP\Computing sets FIRST and FOLLOW\FirstFollow\FirstFollow\obj\Debug\net6.0\FirstFollow.AssemblyInfo.cs
+D:\git\PJP\Computing sets FIRST and FOLLOW\FirstFollow\FirstFollow\obj\Debug\net6.0\FirstFollow.csproj.CoreCompileInputs.cache
+D:\git\PJP\Computing sets FIRST and FOLLOW\FirstFollow\FirstFollow\obj\Debug\net6.0\FirstFollow.dll
+D:\git\PJP\Computing sets FIRST and FOLLOW\FirstFollow\FirstFollow\obj\Debug\net6.0\ref\FirstFollow.dll
+D:\git\PJP\Computing sets FIRST and FOLLOW\FirstFollow\FirstFollow\obj\Debug\net6.0\FirstFollow.pdb
+D:\git\PJP\Computing sets FIRST and FOLLOW\FirstFollow\FirstFollow\obj\Debug\net6.0\FirstFollow.genruntimeconfig.cache
