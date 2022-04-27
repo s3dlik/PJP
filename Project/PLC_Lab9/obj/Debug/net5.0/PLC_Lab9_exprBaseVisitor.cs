@@ -71,6 +71,18 @@ public partial class PLC_Lab9_exprBaseVisitor<Result> : AbstractParseTreeVisitor
 	public virtual Result VisitBoolOper([NotNull] PLC_Lab9_exprParser.BoolOperContext context) { return VisitChildren(context); }
 
 	/// <summary>
+	/// Visit a parse tree produced by the <c>not</c>
+	/// labeled alternative in <see cref="PLC_Lab9_exprParser.expression"/>.
+	/// <para>
+	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
+	/// on <paramref name="context"/>.
+	/// </para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	public virtual Result VisitNot([NotNull] PLC_Lab9_exprParser.NotContext context) { return VisitChildren(context); }
+
+	/// <summary>
 	/// Visit a parse tree produced by the <c>compare</c>
 	/// labeled alternative in <see cref="PLC_Lab9_exprParser.expression"/>.
 	/// <para>

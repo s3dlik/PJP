@@ -57,6 +57,14 @@ public interface IPLC_Lab9_exprVisitor<Result> : IParseTreeVisitor<Result> {
 	Result VisitBoolOper([NotNull] PLC_Lab9_exprParser.BoolOperContext context);
 
 	/// <summary>
+	/// Visit a parse tree produced by the <c>not</c>
+	/// labeled alternative in <see cref="PLC_Lab9_exprParser.expression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitNot([NotNull] PLC_Lab9_exprParser.NotContext context);
+
+	/// <summary>
 	/// Visit a parse tree produced by the <c>compare</c>
 	/// labeled alternative in <see cref="PLC_Lab9_exprParser.expression"/>.
 	/// </summary>

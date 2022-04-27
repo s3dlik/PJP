@@ -81,6 +81,21 @@ public partial class PLC_Lab9_exprBaseListener : IPLC_Lab9_exprListener {
 	public virtual void ExitBoolOper([NotNull] PLC_Lab9_exprParser.BoolOperContext context) { }
 
 	/// <summary>
+	/// Enter a parse tree produced by the <c>not</c>
+	/// labeled alternative in <see cref="PLC_Lab9_exprParser.expression"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterNot([NotNull] PLC_Lab9_exprParser.NotContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>not</c>
+	/// labeled alternative in <see cref="PLC_Lab9_exprParser.expression"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitNot([NotNull] PLC_Lab9_exprParser.NotContext context) { }
+
+	/// <summary>
 	/// Enter a parse tree produced by the <c>compare</c>
 	/// labeled alternative in <see cref="PLC_Lab9_exprParser.expression"/>.
 	/// <para>The default implementation does nothing.</para>

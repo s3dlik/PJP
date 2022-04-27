@@ -37,17 +37,18 @@ whileStatement: 'while('expression')' block ;
 block : input
     | '{'input+'}' ; 
 
-expression: INT                            # int
-    | FLOAT                                 # float
-    | BOOL                                  # bool
-    | STRING                                # string
-    | IDENTIFIER                #identifierExpr
-    | expression op=('*'|'/'|'%') expression    # mul
-    | expression op=('+'|'-') expression    # add
-    | STRING ('.') STRING                  #concat
-    | '(' expression ')'        # par
-    | expression compare=('>' | '<' | '==' | '!=') expression #compare
-    | expression boolOper=('||' | '&&') expression #boolOper
+expression: INT                                         # int
+    | FLOAT                                             # float
+    | BOOL                                              # bool
+    | STRING                                            # string
+    | IDENTIFIER                                        #identifierExpr
+    | expression op=('*'|'/'|'%') expression            # mul
+    | expression op=('+'|'-') expression                # add
+    | STRING ('.') STRING                               #concat
+    | '(' expression ')'                                # par
+    | '!(' expression ')'                               # not
+    | expression compare=('>'|'<'|'=='|'!=') expression #compare
+    | expression boolOper=('||' | '&&') expression      #boolOper
     ;
 
 datatype: 'int' | 'string' | 'float' | 'bool' ;

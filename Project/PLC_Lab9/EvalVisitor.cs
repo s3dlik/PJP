@@ -33,7 +33,13 @@ namespace PLC_Lab9
             helper.Type = "B";
             return helper;
         }
-
+        public override Helper VisitString([NotNull] PLC_Lab9_exprParser.StringContext context)
+        {
+            Helper helper = new();
+            helper.Type = "S";
+            helper.Value = context.STRING().ToString();
+            return helper;
+        }
         /*
         public override Helper VisitConstant([NotNull] PLC_Lab9_exprParser.ConstantContext context)
         {
@@ -109,6 +115,12 @@ namespace PLC_Lab9
             {
                 sb.AppendLine("push " + right.Type + " " +  right.Value);
             }
+            if(left.Type != null && right.Type != null)
+            {
+                if ((left.Type == "F" && right.Type == "I") || (left.Type == "I" && right.Type == "F")) {
+                    sb.AppendLine("itof");
+                }
+            }
 
             if (context.op.Text.Equals("*"))
             {
@@ -152,72 +164,105 @@ namespace PLC_Lab9
             //var nevim = test4.children[0];
             var test3 = context.children[0];
 
-
-            switch (test4)
+            if(context.children[0]!= null)
             {
-                case "string":
-                    helper.Type = "S";
-                    helper.Value = "\"\"";
-                    break;
-                case "float":
-                    helper.Type = "F";
-                    helper.Value = "0.0";
-                    break;
-                case "int":
-                    helper.Type = "I";
-                    helper.Value = "0";
-                    break;
-                case "bool":
-                    helper.Type = "B";
-                    helper.Value = "true";
-                    break;
+                string type = context.children[0].GetText().ToString();
+                foreach (var item in context.IDENTIFIER())
+                {
+                    if (item.ToString() == "," || item.ToString() == type)
+                        continue;
+                    switch (type)
+                    {
+                        case "string":
+                            helper.Type = "S";
+                            helper.Value = "\"\"";
+                            break;
+                        case "float":
+                            helper.Type = "F";
+                            helper.Value = "0.0";
+                            break;
+                        case "int":
+                            helper.Type = "I";
+                            helper.Value = "0";
+                            break;
+                        case "bool":
+                            helper.Type = "B";
+                            helper.Value = "true";
+                            break;
+                    }
+                    sb.AppendLine($"push {helper.Type} {helper.Value}");
+                    sb.AppendLine($"save {item}");
+                    singleDicts.returnInstance().stackValues[item.ToString()] = helper.Type;
+                }
             }
-            sb.AppendLine($"push {helper.Type} {helper.Value}");
-            sb.AppendLine($"save {test}");
             return helper;
             
         }
         public override Helper VisitAssignment([NotNull] PLC_Lab9_exprParser.AssignmentContext context)
         {
             Helper helper = new();
+            bool checkNeg = false;
+            bool itof = false;
             if (context.expression() != null)
             {
                 return Visit(context.expression());
             }
             var value = VisitAssignment(context.assignment());
-            
+            //helper = VisitAssignment(context.assignment());
+            if (singleDicts.returnInstance().stackValues.ContainsKey(context.children[0].ToString())) {
+
+
+                string searchValue = null;
+
+                if (context.children[2].GetChild(0).GetChild(0) != null)
+                    searchValue = context.children[2].GetChild(0).GetChild(0).ToString();
+
+                var srch = singleDicts.returnInstance().stackValues[context.children[0].ToString()];
+
+                if (srch == "I" && searchValue != null) {
+                    int res = int.Parse(searchValue);
+                    if(res < 0)
+                    {
+                        res *= -1;
+                        searchValue = res.ToString();
+                        checkNeg = true;
+                    }
+                }
+                
+                if (value.Type == "I" && srch == "F") {
+                    srch = "I";
+                    searchValue = int.Parse(searchValue).ToString();
+                    itof = true;
+                }
+
+
+
+            //var test123 = context.children[2].GetChild(0).GetChild(0).ToString();
+                helper.Type = srch;
+                helper.Value = searchValue;
+                if(helper.Value != null && value.Type != null)
+                    sb.AppendLine($"push {srch} {searchValue}");
+                
+
+                if (itof)
+                    sb.AppendLine("itof");
+
+                if (checkNeg)
+                    sb.AppendLine("uminus");
+                //singleDicts.returnInstance().stackValues[context.children[0].ToString()] = searchValue;
+                sb.AppendLine($"save {context.children[0]}");
+                sb.AppendLine($"load {context.children[0]}");
+            }
             
 
             var test = context;
             var test1 = context.expression();
-            string test2 = context.IDENTIFIER().ToString();
+            string test2 = context.IDENTIFIER().ToString(); // toto vraci s, d, n, boolean
             
             //var test5 = context.IDENTIFIER().
             var test3 = context.assignment(); // toto vraci asci chary
-            var test4 = context.assignment().GetText();
-
-            if (value.Type == null && value.Value == null)
-            {
-                sb.AppendLine($"push {test2.ToUpper()} " + test4);
-                sb.AppendLine($"save {test2}");
-                sb.AppendLine($"load {test2}");
-            }
-            else
-            {
-                if (value.Type == "I" && int.Parse(value.Value) < 0)
-                {
-                    int result = int.Parse(value.Value) * -1;
-                    sb.AppendLine($"push {value.Type} " + result);
-                    sb.AppendLine("uminus");
-                    sb.AppendLine($"save {test2}");
-                    sb.AppendLine($"load {test2}");
-                }
-                else { 
-                    sb.AppendLine($"push {value.Type} " + value.Value);
-                    sb.AppendLine($"save {test2}");
-                    sb.AppendLine($"load {test2}");
-                }
-            }
+            var test4 = context.assignment().GetText(); // toto vraci "Abcd", 3.4156..., -500, true
+            
             return helper;
         }
         public override Helper VisitWrite([NotNull] PLC_Lab9_exprParser.WriteContext context)
@@ -260,6 +305,21 @@ namespace PLC_Lab9
             return helper;
         }
 
+        public override Helper VisitRead([NotNull] PLC_Lab9_exprParser.ReadContext context)
+        {
+            Helper helper = new();
+            foreach (var item in context.IDENTIFIER())
+            {
+                if (singleDicts.returnInstance().stackValues.ContainsKey(item.ToString()))
+                {
+                    var tmp = singleDicts.returnInstance().stackValues[item.ToString()];
+                    sb.AppendLine($"read {tmp}");
+                    sb.AppendLine($"save {item}");
+                }
+            }
+            return helper;
+        }
+
         public override Helper VisitIdentifierExpr([NotNull] PLC_Lab9_exprParser.IdentifierExprContext context)
         {
             Helper helper = new();
@@ -279,6 +339,27 @@ namespace PLC_Lab9
 
             }
             helper.Value = sb.ToString();
+            return helper;
+        }
+
+        public override Helper VisitConcat([NotNull] PLC_Lab9_exprParser.ConcatContext context)
+        {
+            Helper helper = new();
+            var text = context.GetText().ToString();
+            string [] textArr= text.Split(".");
+
+            sb.AppendLine($"push S {textArr[0]}");
+            sb.AppendLine($"push S {textArr[1]}");
+            sb.AppendLine("concat");
+            return helper;
+        }
+
+        public override Helper VisitCompare([NotNull] PLC_Lab9_exprParser.CompareContext context)
+        {
+            Helper helper = new();
+            var left = Visit(context.expression()[0]);
+            var test = left.GetType();
+            var right = Visit(context.expression()[1]);
             return helper;
         }
     }

@@ -71,6 +71,19 @@ public interface IPLC_Lab9_exprListener : IParseTreeListener {
 	void ExitBoolOper([NotNull] PLC_Lab9_exprParser.BoolOperContext context);
 
 	/// <summary>
+	/// Enter a parse tree produced by the <c>not</c>
+	/// labeled alternative in <see cref="PLC_Lab9_exprParser.expression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterNot([NotNull] PLC_Lab9_exprParser.NotContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>not</c>
+	/// labeled alternative in <see cref="PLC_Lab9_exprParser.expression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitNot([NotNull] PLC_Lab9_exprParser.NotContext context);
+
+	/// <summary>
 	/// Enter a parse tree produced by the <c>compare</c>
 	/// labeled alternative in <see cref="PLC_Lab9_exprParser.expression"/>.
 	/// </summary>
