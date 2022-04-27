@@ -4,12 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 namespace PLC_Lab9
 {
     public class EvalVisitor : PLC_Lab9_exprBaseVisitor<Helper>
     {
         StringBuilder sb = new StringBuilder();
+        int globalCounter = 0;
         public override Helper VisitInt([NotNull] PLC_Lab9_exprParser.IntContext context)
         {
             Helper helper = new();
@@ -25,6 +25,15 @@ namespace PLC_Lab9
             helper.Type = "F";
             return helper;
         }
+
+        public override Helper VisitBool([NotNull] PLC_Lab9_exprParser.BoolContext context)
+        {
+            Helper helper = new();
+            helper.Value = bool.Parse(context.BOOL().GetText()).ToString();
+            helper.Type = "B";
+            return helper;
+        }
+
         /*
         public override Helper VisitConstant([NotNull] PLC_Lab9_exprParser.ConstantContext context)
         {
@@ -62,13 +71,13 @@ namespace PLC_Lab9
             Helper helper = new();
             var left = Visit(context.expression()[0]);
             var right = Visit(context.expression()[1]);
-            if (left.Value != null || left.Type != null)
+            if (left.Value != null && left.Type != null)
             {
-                sb.AppendLine("PUSH: " + left.Type + " " + left.Value);
+                sb.AppendLine("push " + left.Type + " " + left.Value);
             }
-            if (right.Value != null || right.Type != null)
+            if (right.Value != null && right.Type != null)
             {
-                sb.AppendLine("PUSH: " + right.Type + " " + right.Value);
+                sb.AppendLine("push " + right.Type + " " + right.Value);
             }
 
             if (context.op.Text.Equals("+"))
@@ -76,13 +85,13 @@ namespace PLC_Lab9
                 
                 helper.Value = (left.Value + right.Value).ToString() + "ADD\n";
                 helper.Type = helper.Value.GetType().ToString();
-                sb.AppendLine("ADD");
+                sb.AppendLine("add");
             }
             else
             {
                 helper.Value = (left.Value + right.Value).ToString() + "SUB\n";
                 helper.Type = helper.Value.GetType().ToString() ;
-                sb.AppendLine("SUB");
+                sb.AppendLine("sub");
             }
             return helper;
         }
@@ -92,51 +101,136 @@ namespace PLC_Lab9
             var left = Visit(context.expression()[0]);
             var right = Visit(context.expression()[1]);
 
-            if (left.Value != null || left.Type != null)
+            if (left.Value != null && left.Type != null)
             {
-                sb.AppendLine("PUSH: " + left.Type  + left.Value);
+                sb.AppendLine("push " + left.Type  + " " + left.Value);
             }
-            if (right.Value != null || right.Type != null)
+            if (right.Value != null && right.Type != null)
             {
-                sb.AppendLine("PUSH: " + right.Type + right.Value);
+                sb.AppendLine("push " + right.Type + " " +  right.Value);
             }
 
             if (context.op.Text.Equals("*"))
             {
-                helper.Value = (left.Value + right.Value).ToString() + "MUL\n";
-                helper.Type = helper.Value.GetType().ToString();
-                sb.AppendLine("ADD");
+                helper.Value = left.ToString() + right.ToString() + "MUL\n";
+                sb.AppendLine("mul");
             }
             else if (context.op.Text.Equals("%")){
-                helper.Value = (left.Value + right.Value).ToString() + "MOD\n";
-                helper.Type = helper.Value.GetType().ToString();
+                helper.Value = left.ToString() + right.ToString() + "MOD\n";
+                sb.AppendLine("mod");
             }
             else
             {
-                helper.Value = (left.Value + right.Value).ToString() + "DIV\n";
-                helper.Type = helper.Value.GetType().ToString();
-                sb.AppendLine("SUB");
+                helper.Value = left.ToString() + right.ToString() + "DIV\n";
+                sb.AppendLine("div");
             }
             return helper;
         }
 
         public override Helper VisitStatement([NotNull] PLC_Lab9_exprParser.StatementContext context)
         {
-            return base.VisitStatement(context);
+            Helper helper = new();
+
+            if (context.declaration() != null)
+            {
+                return VisitDeclaration(context.declaration());
+            }
+            else if (context.assignment() != null){
+                VisitAssignment(context.assignment());
+                sb.AppendLine("pop");
+            }
+            return helper;
         }
 
         public override Helper VisitDeclaration([NotNull] PLC_Lab9_exprParser.DeclarationContext context)
         {
-            return base.VisitDeclaration(context);
-        }
+            Helper helper = new();
+            var test = context.IDENTIFIER().ElementAt(0).ToString();
+            var test1 = context.IDENTIFIER();
+            var test2 = context.GetText();
+            var test4 = context.children[0].GetText();
+            //var nevim = test4.children[0];
+            var test3 = context.children[0];
 
+
+            switch (test4)
+            {
+                case "string":
+                    helper.Type = "S";
+                    helper.Value = "\"\"";
+                    break;
+                case "float":
+                    helper.Type = "F";
+                    helper.Value = "0.0";
+                    break;
+                case "int":
+                    helper.Type = "I";
+                    helper.Value = "0";
+                    break;
+                case "bool":
+                    helper.Type = "B";
+                    helper.Value = "true";
+                    break;
+            }
+            sb.AppendLine($"push {helper.Type} {helper.Value}");
+            sb.AppendLine($"save {test}");
+            return helper;
+            
+        }
+        public override Helper VisitAssignment([NotNull] PLC_Lab9_exprParser.AssignmentContext context)
+        {
+            Helper helper = new();
+            if (context.expression() != null)
+            {
+                return Visit(context.expression());
+            }
+            var value = VisitAssignment(context.assignment());
+            
+            
+
+            var test = context;
+            var test1 = context.expression();
+            string test2 = context.IDENTIFIER().ToString();
+            
+            //var test5 = context.IDENTIFIER().
+            var test3 = context.assignment(); // toto vraci asci chary
+            var test4 = context.assignment().GetText();
+
+            if (value.Type == null && value.Value == null)
+            {
+                sb.AppendLine($"push {test2.ToUpper()} " + test4);
+                sb.AppendLine($"save {test2}");
+                sb.AppendLine($"load {test2}");
+            }
+            else
+            {
+                if (value.Type == "I" && int.Parse(value.Value) < 0)
+                {
+                    int result = int.Parse(value.Value) * -1;
+                    sb.AppendLine($"push {value.Type} " + result);
+                    sb.AppendLine("uminus");
+                    sb.AppendLine($"save {test2}");
+                    sb.AppendLine($"load {test2}");
+                }
+                else { 
+                    sb.AppendLine($"push {value.Type} " + value.Value);
+                    sb.AppendLine($"save {test2}");
+                    sb.AppendLine($"load {test2}");
+                }
+            }
+            return helper;
+        }
         public override Helper VisitWrite([NotNull] PLC_Lab9_exprParser.WriteContext context)
         {
             Helper helper = new();
+            globalCounter = 0;
             foreach (var item in context.fullSTRING())
             {
+                globalCounter++;
                 VisitFullSTRING(item);
             }
+            
+            sb.AppendLine("print " + globalCounter);
             return helper;
         }
 
@@ -150,23 +244,30 @@ namespace PLC_Lab9
         {
             Helper helper = new();
             var test = context.STRING();
-            sb.AppendLine("PUSH S: " + test.ToString());
-
+            sb.AppendLine("push S " + test.ToString());
+            
             var exp = context.expression(0);
             if(context.expression(0)!= null)
             {
                 var res = Visit(context.expression()[0]);
-                if (res.Type != null) { 
-                     sb.AppendLine("PUSH " + res.Type + ": " + res.Value);
+                if ((res.Type == "F") || (res.Type == "S") || (res.Type == "I") || (res.Type == "B")) { 
+                     sb.AppendLine("push " + res.Type + " " + res.Value);
                 }
+                globalCounter++;
                 //sb.AppendLine("PUSH: " + sdfsd + " " + sdfsd.Value);
             }
 
-            var nevim = context.expression();
             return helper;
         }
 
-        
+        public override Helper VisitIdentifierExpr([NotNull] PLC_Lab9_exprParser.IdentifierExprContext context)
+        {
+            Helper helper = new();
+
+            sb.AppendLine($"load {context.IDENTIFIER().GetText()}");
+
+            return helper;
+        }
 
         public override Helper VisitProg([NotNull] PLC_Lab9_exprParser.ProgContext context)
         {

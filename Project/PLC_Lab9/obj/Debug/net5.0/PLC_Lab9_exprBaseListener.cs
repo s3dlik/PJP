@@ -382,19 +382,6 @@ public partial class PLC_Lab9_exprBaseListener : IPLC_Lab9_exprListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitDatatype([NotNull] PLC_Lab9_exprParser.DatatypeContext context) { }
 
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="PLC_Lab9_exprParser.comment"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void EnterComment([NotNull] PLC_Lab9_exprParser.CommentContext context) { }
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="PLC_Lab9_exprParser.comment"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void ExitComment([NotNull] PLC_Lab9_exprParser.CommentContext context) { }
-
 	/// <inheritdoc/>
 	/// <remarks>The default implementation does nothing.</remarks>
 	public virtual void EnterEveryRule([NotNull] ParserRuleContext context) { }

@@ -217,12 +217,5 @@ public interface IPLC_Lab9_exprVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitDatatype([NotNull] PLC_Lab9_exprParser.DatatypeContext context);
-
-	/// <summary>
-	/// Visit a parse tree produced by <see cref="PLC_Lab9_exprParser.comment"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitComment([NotNull] PLC_Lab9_exprParser.CommentContext context);
 }
 } // namespace PLC_Lab9

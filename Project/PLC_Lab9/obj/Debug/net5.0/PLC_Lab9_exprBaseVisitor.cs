@@ -319,16 +319,5 @@ public partial class PLC_Lab9_exprBaseVisitor<Result> : AbstractParseTreeVisitor
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	public virtual Result VisitDatatype([NotNull] PLC_Lab9_exprParser.DatatypeContext context) { return VisitChildren(context); }
-
-	/// <summary>
-	/// Visit a parse tree produced by <see cref="PLC_Lab9_exprParser.comment"/>.
-	/// <para>
-	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
-	/// on <paramref name="context"/>.
-	/// </para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	public virtual Result VisitComment([NotNull] PLC_Lab9_exprParser.CommentContext context) { return VisitChildren(context); }
 }
 } // namespace PLC_Lab9

@@ -327,16 +327,5 @@ public interface IPLC_Lab9_exprListener : IParseTreeListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	void ExitDatatype([NotNull] PLC_Lab9_exprParser.DatatypeContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="PLC_Lab9_exprParser.comment"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterComment([NotNull] PLC_Lab9_exprParser.CommentContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="PLC_Lab9_exprParser.comment"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitComment([NotNull] PLC_Lab9_exprParser.CommentContext context);
 }
 } // namespace PLC_Lab9

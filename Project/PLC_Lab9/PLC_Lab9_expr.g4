@@ -8,7 +8,7 @@ input: statement ';'
     | whileStatement
     | write ';'
     | read ';'
-    | comment
+    | COMMENT
     | ';'
     ;
 
@@ -59,6 +59,5 @@ FLOAT : ('-')?[0-9]+ '.' [0-9]+ ;   // match floats
 STRING : ('"' ~'"'* '"') ;
 NULL: 'null';
 IDENTIFIER: [a-zA-Z_][a-zA-Z0-9_]*;
-
+COMMENT : '//' ~( '\r' | '\n' )* -> skip;
 WS : [ \t\r\n]+ -> skip ;   // toss out whitespace
-comment: '//' ~('\r' | '\n')*;
