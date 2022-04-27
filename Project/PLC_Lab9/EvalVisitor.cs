@@ -10,6 +10,7 @@ namespace PLC_Lab9
     {
         StringBuilder sb = new StringBuilder();
         int globalCounter = 0;
+        int label = 0;
         public override Helper VisitInt([NotNull] PLC_Lab9_exprParser.IntContext context)
         {
             Helper helper = new();
@@ -208,52 +209,52 @@ namespace PLC_Lab9
                 return Visit(context.expression());
             }
             var value = VisitAssignment(context.assignment());
-            //helper = VisitAssignment(context.assignment());
-            if (singleDicts.returnInstance().stackValues.ContainsKey(context.children[0].ToString())) {
+            if (context.children[0] != null) { 
+                //helper = VisitAssignment(context.assignment());
+                if (singleDicts.returnInstance().stackValues.ContainsKey(context.children[0].ToString())) {
 
 
-                string searchValue = null;
+                    string searchValue = null;
 
-                if (context.children[2].GetChild(0).GetChild(0) != null)
-                    searchValue = context.children[2].GetChild(0).GetChild(0).ToString();
+                    if (context.children[2].GetChild(0).GetChild(0) != null)
+                        searchValue = context.children[2].GetChild(0).GetChild(0).ToString();
 
-                var srch = singleDicts.returnInstance().stackValues[context.children[0].ToString()];
+                    var srch = singleDicts.returnInstance().stackValues[context.children[0].ToString()];
 
-                if (srch == "I" && searchValue != null) {
-                    int res = int.Parse(searchValue);
-                    if(res < 0)
-                    {
-                        res *= -1;
-                        searchValue = res.ToString();
-                        checkNeg = true;
+                    if (srch == "I" && searchValue != null) {
+                        int res;
+                        int.TryParse(searchValue, out res);
+                        if(res < 0)
+                        {
+                            res *= -1;
+                            searchValue = res.ToString();
+                            checkNeg = true;
+                        }
                     }
-                }
                 
-                if (value.Type == "I" && srch == "F") {
-                    srch = "I";
-                    searchValue = int.Parse(searchValue).ToString();
-                    itof = true;
-                }
+                    if (value.Type == "I" && srch == "F") {
+                        srch = "I";
+                        searchValue = int.Parse(searchValue).ToString();
+                        itof = true;
+                    }
 
 
-
-            //var test123 = context.children[2].GetChild(0).GetChild(0).ToString();
-                helper.Type = srch;
-                helper.Value = searchValue;
-                if(helper.Value != null && value.Type != null)
-                    sb.AppendLine($"push {srch} {searchValue}");
+                    helper.Type = srch;
+                    helper.Value = searchValue;
+                    if(helper.Value != null && value.Type != null)
+                        if(!searchValue.StartsWith("["))
+                            sb.AppendLine($"push {srch} {searchValue}"); 
                 
 
-                if (itof)
-                    sb.AppendLine("itof");
+                    if (itof)
+                        sb.AppendLine("itof");
 
-                if (checkNeg)
-                    sb.AppendLine("uminus");
-                //singleDicts.returnInstance().stackValues[context.children[0].ToString()] = searchValue;
-                sb.AppendLine($"save {context.children[0]}");
-                sb.AppendLine($"load {context.children[0]}");
+                    if (checkNeg)
+                        sb.AppendLine("uminus");
+                    sb.AppendLine($"save {context.children[0]}");
+                    sb.AppendLine($"load {context.children[0]}");
+                }
             }
-            
 
             var test = context;
             var test1 = context.expression();
@@ -382,15 +383,19 @@ namespace PLC_Lab9
 
             switch (context.compare.Text.ToString()) { 
                 case "<":
+                    helper.Value = leftSide.ToString() + rightSide.ToString() + "LT\n";
                     sb.AppendLine("lt");
                     break;
                 case ">":
+                    helper.Value = leftSide.ToString() + rightSide.ToString() + "GT\n";
                     sb.AppendLine("gt");
                     break;
                 case "==":
+                    helper.Value = leftSide.ToString() + rightSide.ToString() + "EQ\n";
                     sb.AppendLine("eq");
                     break;
                 case "!=":
+                    helper.Value = leftSide.ToString() + rightSide.ToString() + "EQ NOT\n";
                     sb.AppendLine("eq");
                     sb.AppendLine("not");
                     break;
@@ -416,11 +421,11 @@ namespace PLC_Lab9
             switch (context.boolOper.Text.ToString())
             {
                 case "&&":
-                    //helper.Value = leftSide.ToString() + rightSide.ToString() + "AND\n";
+                    helper.Value = leftSide.ToString() + rightSide.ToString() + "AND\n";
                     sb.AppendLine("and");
                     break;
                 case "||":
-                    //helper.Value = leftSide.ToString() + rightSide.ToString() + "OR\n";
+                    helper.Value = leftSide.ToString() + rightSide.ToString() + "OR\n";
                     sb.AppendLine("or");
                     break;
             }
@@ -433,6 +438,70 @@ namespace PLC_Lab9
             Helper helper = new();
             Visit(context.expression());
             sb.AppendLine("not");
+            return helper;
+        }
+
+        public override Helper VisitIfStatement([NotNull] PLC_Lab9_exprParser.IfStatementContext context)
+        {
+            Helper helper = new();
+            var condition = Visit(context.expression());
+            bool first = true;
+            if(condition.Type != null)
+            {
+                sb.AppendLine($"push {condition.Type} {condition.Value}");
+            }
+            sb.AppendLine($"fjmp {label}");
+
+            VisitBlock(context.block());
+
+            if(context.elseStatement() != null)
+            {
+                sb.AppendLine($"jmp {label+1}");
+            }
+
+            sb.AppendLine($"label {label}");
+
+            if (context.elseStatement() != null)
+            {
+                foreach (var item in context.elseStatement())
+                {
+                    if (!first)
+                        sb.AppendLine($"label {++label}");
+                    else
+                        first = false;
+                    VisitElseStatement(item);
+                }
+                sb.AppendLine($"label {++label}");
+            }
+            label++;
+            return helper;
+        }
+
+        public override Helper VisitElseStatement([NotNull] PLC_Lab9_exprParser.ElseStatementContext context)
+        {
+            Helper helper = new();
+
+            if(context.block() != null)
+            {
+                return VisitBlock(context.block());
+            }
+            return helper;
+        }
+
+        public override Helper VisitWhileStatement([NotNull] PLC_Lab9_exprParser.WhileStatementContext context)
+        {
+            Helper helper = new();
+
+            sb.AppendLine($"label {label}");
+
+            Visit(context.expression());
+            sb.AppendLine($"fjmp {label+1}");
+
+            VisitBlock(context.block());
+
+            sb.AppendLine($"jmp {label}");
+            sb.AppendLine($"label {++label}");
+            label++;
             return helper;
         }
     }

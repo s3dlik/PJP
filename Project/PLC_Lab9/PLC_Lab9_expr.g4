@@ -26,7 +26,7 @@ fullSTRING : STRING(',' expression ',')*(',' expression)* ;
 
 read: 'read' IDENTIFIER (',' IDENTIFIER)* ;
 
-ifStatement : 'if' ('expression') block ('else' elseStatement)* ;
+ifStatement : 'if ('expression')' block ('else' elseStatement)* ;
 
 elseStatement: block
     | ifStatement
