@@ -357,9 +357,82 @@ namespace PLC_Lab9
         public override Helper VisitCompare([NotNull] PLC_Lab9_exprParser.CompareContext context)
         {
             Helper helper = new();
-            var left = Visit(context.expression()[0]);
-            var test = left.GetType();
-            var right = Visit(context.expression()[1]);
+            var leftSide = Visit(context.expression()[0]);
+            var rightSide = Visit(context.expression()[1]);
+            //var test = context.compare.Text.ToString();
+
+            if(leftSide.Type != null && leftSide.Value != null)
+            {
+                sb.AppendLine($"push {leftSide.Type} {leftSide.Value}");
+                if((leftSide.Type == "I" && rightSide.Type == "F"))
+                {
+                    sb.AppendLine("itof");
+                }
+                
+            }
+
+            if (rightSide.Type != null && rightSide.Value != null)
+            {
+                sb.AppendLine($"push {rightSide.Type} {rightSide.Value}");
+                if ((leftSide.Type == "F" && rightSide.Type == "I"))
+                {
+                    sb.AppendLine("itof");
+                }
+            }
+
+            switch (context.compare.Text.ToString()) { 
+                case "<":
+                    sb.AppendLine("lt");
+                    break;
+                case ">":
+                    sb.AppendLine("gt");
+                    break;
+                case "==":
+                    sb.AppendLine("eq");
+                    break;
+                case "!=":
+                    sb.AppendLine("eq");
+                    sb.AppendLine("not");
+                    break;
+            }
+            return helper;
+        }
+
+        public override Helper VisitBoolOper([NotNull] PLC_Lab9_exprParser.BoolOperContext context)
+        {
+            Helper helper = new();
+            var leftSide = Visit(context.expression()[0]);
+            var rightSide = Visit(context.expression()[1]);
+            //var test = context.boolOper.Text.ToString();
+            if (leftSide.Value != null && leftSide.Type != null)
+            {
+                sb.AppendLine($"push {leftSide.Type} {leftSide.Value}");
+            }
+
+            if (rightSide.Value != null && rightSide.Type != null)
+            {
+                sb.AppendLine($"push {rightSide.Type} {rightSide.Value}");
+            }
+            switch (context.boolOper.Text.ToString())
+            {
+                case "&&":
+                    //helper.Value = leftSide.ToString() + rightSide.ToString() + "AND\n";
+                    sb.AppendLine("and");
+                    break;
+                case "||":
+                    //helper.Value = leftSide.ToString() + rightSide.ToString() + "OR\n";
+                    sb.AppendLine("or");
+                    break;
+            }
+            
+            return helper;
+        }
+
+        public override Helper VisitNot([NotNull] PLC_Lab9_exprParser.NotContext context)
+        {
+            Helper helper = new();
+            Visit(context.expression());
+            sb.AppendLine("not");
             return helper;
         }
     }

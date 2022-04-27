@@ -50,7 +50,7 @@ public partial class PLC_Lab9_exprParser : Parser {
 	private static readonly string[] _LiteralNames = {
 		null, "';'", "','", "'='", "'write'", "'read'", "'if'", "'expression'", 
 		"'else'", "'while('", "')'", "'{'", "'}'", "'*'", "'/'", "'%'", "'+'", 
-		"'-'", "'.'", "'('", "'!('", "'>'", "'<'", "'=='", "'!='", "'||'", "'&&'", 
+		"'-'", "'.'", "'('", "'!('", "'>'", "'<'", "'=='", "'!='", "'&&'", "'||'", 
 		"'int'", "'string'", "'float'", "'bool'", null, null, null, null, "'null'"
 	};
 	private static readonly string[] _SymbolicNames = {

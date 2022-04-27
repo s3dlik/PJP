@@ -44,11 +44,11 @@ expression: INT                                         # int
     | IDENTIFIER                                        #identifierExpr
     | expression op=('*'|'/'|'%') expression            # mul
     | expression op=('+'|'-') expression                # add
-    | STRING ('.') STRING                               #concat
+    | STRING ('.') STRING                               # concat
     | '(' expression ')'                                # par
     | '!(' expression ')'                               # not
-    | expression compare=('>'|'<'|'=='|'!=') expression #compare
-    | expression boolOper=('||' | '&&') expression      #boolOper
+    | expression compare=('>'|'<'|'=='|'!=') expression # compare
+    | expression boolOper=('&&' | '||') expression      # boolOper
     ;
 
 datatype: 'int' | 'string' | 'float' | 'bool' ;
