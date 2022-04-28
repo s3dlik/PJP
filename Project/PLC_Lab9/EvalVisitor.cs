@@ -1,4 +1,5 @@
-﻿using Antlr4.Runtime.Misc;
+﻿using Antlr4.Runtime;
+using Antlr4.Runtime.Misc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,7 @@ namespace PLC_Lab9
         StringBuilder sb = new StringBuilder();
         int globalCounter = 0;
         int label = 0;
+        bool wasAssigned = false;
         public override Helper VisitInt([NotNull] PLC_Lab9_exprParser.IntContext context)
         {
             Helper helper = new();
@@ -89,15 +91,12 @@ namespace PLC_Lab9
 
             if (context.op.Text.Equals("+"))
             {
-                
-                helper.Value = (left.Value + right.Value).ToString() + "ADD\n";
-                helper.Type = helper.Value.GetType().ToString();
+                helper.Value = left.ToString() + right.ToString();
                 sb.AppendLine("add");
             }
             else
             {
-                helper.Value = (left.Value + right.Value).ToString() + "SUB\n";
-                helper.Type = helper.Value.GetType().ToString() ;
+                helper.Value = left.ToString() + right.ToString();
                 sb.AppendLine("sub");
             }
             return helper;
@@ -125,16 +124,16 @@ namespace PLC_Lab9
 
             if (context.op.Text.Equals("*"))
             {
-                helper.Value = left.ToString() + right.ToString() + "MUL\n";
+                helper.Value = left.ToString() + right.ToString();
                 sb.AppendLine("mul");
             }
             else if (context.op.Text.Equals("%")){
-                helper.Value = left.ToString() + right.ToString() + "MOD\n";
+                helper.Value = left.ToString() + right.ToString();
                 sb.AppendLine("mod");
             }
             else
             {
-                helper.Value = left.ToString() + right.ToString() + "DIV\n";
+                helper.Value = left.ToString() + right.ToString();
                 sb.AppendLine("div");
             }
             return helper;
@@ -151,6 +150,7 @@ namespace PLC_Lab9
             else if (context.assignment() != null){
                 VisitAssignment(context.assignment());
                 sb.AppendLine("pop");
+                wasAssigned = false;
             }
             return helper;
         }
@@ -202,73 +202,50 @@ namespace PLC_Lab9
         public override Helper VisitAssignment([NotNull] PLC_Lab9_exprParser.AssignmentContext context)
         {
             Helper helper = new();
-            bool checkNeg = false;
             bool itof = false;
-            if (context.expression() != null)
+            bool negative = false;
+            if(context.expression()!= null)
             {
                 return Visit(context.expression());
             }
-            
-            if (context.children[0] != null) {
-                var value = VisitAssignment(context.assignment());
-                //helper = VisitAssignment(context.assignment());
-                if (singleDicts.returnInstance().stackValues.ContainsKey(context.children[0].ToString())) {
+
+            var value = VisitAssignment(context.assignment()) ;
 
 
-                    string searchValue = string.Empty;
-
-                    var searchStack = singleDicts.returnInstance().stackValues[context.children[0].ToString()];
-
-                    if (searchStack == "I" && value.Value != null) {
-                        int res;
-                        int.TryParse(value.Value, out res);
-                        if(res < 0)
-                        {
-                            res *= -1;
-                            searchValue = res.ToString();
-                            checkNeg = true;
-                        }
-                    }
-                
-                    if (value.Type == "I" && searchStack == "F") {
-                        searchStack = "I";
-                        searchValue = int.Parse(value.Value).ToString();
-                        itof = true;
-                    }
-
-                    if (value.Type == "F" && searchStack == "I")
+            if (!wasAssigned)
+            {
+                if(value.Type == "I" && value.Value != null)
+                {
+                    int res;
+                    int.TryParse(value.Value, out res);
+                    if(res < 0)
                     {
-                        searchStack = "I";
-                        searchValue = int.Parse(value.Value).ToString();
-                        itof = true;
+                        res *= -1;
+                        value.Value = res.ToString(); ;
+                        negative = true;
                     }
-
-
-                    helper.Type = searchStack;
-                    helper.Value = searchValue;
-                    if (helper.Value != null && value.Type != null)
-                        if(!value.Value.StartsWith("["))
-                            sb.AppendLine($"push {helper.Type} {helper.Value}"); 
-                
-
-                    if (itof)
-                        sb.AppendLine("itof");
-
-                    if (checkNeg)
-                        sb.AppendLine("uminus");
-                    sb.AppendLine($"save {context.children[0]}");
-                    sb.AppendLine($"load {context.children[0]}");
                 }
+
+                if(value.Type == "I" && singleDicts.returnInstance().stackValues[context.GetChild(0).ToString()] == "F")
+                {
+                    itof = true;
+                }
+
             }
 
-            var test = context;
-            var test1 = context.expression();
-            string test2 = context.IDENTIFIER().ToString(); // toto vraci s, d, n, boolean
-            
-            //var test5 = context.IDENTIFIER().
-            var test3 = context.assignment(); // toto vraci asci chary
-            var test4 = context.assignment().GetText(); // toto vraci "Abcd", 3.4156..., -500, true
-            
+            if (value.Value != null && value.Type != null)
+            {
+                sb.AppendLine($"push {value.Type} {value.Value}");
+            }
+
+            if (negative)
+                sb.AppendLine("uminus");
+
+            if (itof)
+                sb.AppendLine("itof");
+
+            sb.AppendLine($"save {context.children[0]}");
+            sb.AppendLine($"load {context.children[0]}");
             return helper;
         }
         public override Helper VisitWrite([NotNull] PLC_Lab9_exprParser.WriteContext context)
@@ -388,19 +365,19 @@ namespace PLC_Lab9
 
             switch (context.compare.Text.ToString()) { 
                 case "<":
-                    helper.Value = leftSide.ToString() + rightSide.ToString() + "LT\n";
+                    
                     sb.AppendLine("lt");
                     break;
                 case ">":
-                    helper.Value = leftSide.ToString() + rightSide.ToString() + "GT\n";
+                    
                     sb.AppendLine("gt");
                     break;
                 case "==":
-                    helper.Value = leftSide.ToString() + rightSide.ToString() + "EQ\n";
+                    
                     sb.AppendLine("eq");
                     break;
                 case "!=":
-                    helper.Value = leftSide.ToString() + rightSide.ToString() + "EQ NOT\n";
+                    
                     sb.AppendLine("eq");
                     sb.AppendLine("not");
                     break;
