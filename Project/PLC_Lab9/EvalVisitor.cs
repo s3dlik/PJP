@@ -208,22 +208,20 @@ namespace PLC_Lab9
             {
                 return Visit(context.expression());
             }
-            var value = VisitAssignment(context.assignment());
-            if (context.children[0] != null) { 
+            
+            if (context.children[0] != null) {
+                var value = VisitAssignment(context.assignment());
                 //helper = VisitAssignment(context.assignment());
                 if (singleDicts.returnInstance().stackValues.ContainsKey(context.children[0].ToString())) {
 
 
-                    string searchValue = null;
+                    string searchValue = string.Empty;
 
-                    if (context.children[2].GetChild(0).GetChild(0) != null)
-                        searchValue = context.children[2].GetChild(0).GetChild(0).ToString();
+                    var searchStack = singleDicts.returnInstance().stackValues[context.children[0].ToString()];
 
-                    var srch = singleDicts.returnInstance().stackValues[context.children[0].ToString()];
-
-                    if (srch == "I" && searchValue != null) {
+                    if (searchStack == "I" && value.Value != null) {
                         int res;
-                        int.TryParse(searchValue, out res);
+                        int.TryParse(value.Value, out res);
                         if(res < 0)
                         {
                             res *= -1;
@@ -232,18 +230,25 @@ namespace PLC_Lab9
                         }
                     }
                 
-                    if (value.Type == "I" && srch == "F") {
-                        srch = "I";
-                        searchValue = int.Parse(searchValue).ToString();
+                    if (value.Type == "I" && searchStack == "F") {
+                        searchStack = "I";
+                        searchValue = int.Parse(value.Value).ToString();
+                        itof = true;
+                    }
+
+                    if (value.Type == "F" && searchStack == "I")
+                    {
+                        searchStack = "I";
+                        searchValue = int.Parse(value.Value).ToString();
                         itof = true;
                     }
 
 
-                    helper.Type = srch;
+                    helper.Type = searchStack;
                     helper.Value = searchValue;
-                    if(helper.Value != null && value.Type != null)
-                        if(!searchValue.StartsWith("["))
-                            sb.AppendLine($"push {srch} {searchValue}"); 
+                    if (helper.Value != null && value.Type != null)
+                        if(!value.Value.StartsWith("["))
+                            sb.AppendLine($"push {helper.Type} {helper.Value}"); 
                 
 
                     if (itof)
