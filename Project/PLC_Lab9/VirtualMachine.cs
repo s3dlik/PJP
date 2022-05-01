@@ -10,6 +10,7 @@ namespace PLC_Lab9
     {
         private Stack<Helper> stack = new Stack<Helper>();
         private List<string> code = new List<string>();
+        private Dictionary<string, Helper> variables = new();
         public VirtualMachine(string code)
         {
             this.code=code.Split("\n\r".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).ToList();
@@ -19,12 +20,24 @@ namespace PLC_Lab9
 
             foreach(var instruction in this.code)
             {
+                string[] identifier;
+                if (instruction.Contains("\""))
+                {
+                    var parts = instruction.Split("\"");
+                    identifier = parts[0].Split(' ');
+                    identifier[2] = parts[1];
+
+                }
+                else
+                {
+                    identifier= instruction.Split(" ");
+                }
                 var word = instruction.Split(" ")[0];
 
-                switch (word)
+                switch (identifier[0])
                 {
                     case "push":                     
-                        Push(instruction);
+                        Push(identifier);
                         break;
                     case "print":
                         var value = instruction.Split(" ")[1];
@@ -55,19 +68,49 @@ namespace PLC_Lab9
                         Concat();
                         break;
                     case "read":
-                        Read();
+
+                        Read(identifier[1]);
                         break;
+                    case "gt":
+                        GT();
+                        break;
+                    case "label":
+                        break;
+                    case "save":
+                        Save(identifier[1]);
+                        break;
+                    case "load":
+                        Load(identifier[1]);
+                        break;
+                    case "eq":
+                        EQ();
+                        break;
+                    case "not":
+                        NOT();
+                        break;
+                    case "or":
+                        OR();
+                        break;
+                    case "and":
+                        AND();
+                        break;
+                    case "lt":
+                        LT();
+                        break;
+
                 }
             }
         }
 
 
-        public void Push(string instruction)
+        public void Push(string[] instructions)
         {
             Helper helper = new();
-            
-            helper.Value = instruction.Split(' ')[2];
-            helper.Type = instruction.Split(' ').Skip(1).FirstOrDefault();
+            //var tmp = instructions[];
+            helper.Value = instructions[2];
+            helper.Type = instructions[1];
+            //helper.Value = instruction.Split(' ')[2];
+            //helper.Type = instruction.Split(' ').Skip(1).FirstOrDefault();
             stack.Push(helper);
 
         }
@@ -85,14 +128,34 @@ namespace PLC_Lab9
             }
         }
 
-        public void Read()
+        public void Read(string input)
         {
-
+            Helper helper = new();
+            switch (input)
+            {
+                case "I":
+                    helper.Type = "I";
+                    helper.Value = Console.ReadLine();
+                    break;
+                case "F":
+                    helper.Type = "F";
+                    helper.Value = Console.ReadLine();
+                    break;
+                case "S":
+                    helper.Type = "S";
+                    helper.Value = Console.ReadLine();
+                    break;
+                case "B":
+                    helper.Type = "B";
+                    helper.Value = Console.ReadLine();
+                    break;
+            }
+            stack.Push(helper);
         }
 
         public void Pop()
         {
-            stack.Pop();
+            //stack.Pop();
         }
 
         public void Mul()
@@ -233,7 +296,7 @@ namespace PLC_Lab9
             Helper helper = new();
             if(leftSide.Type == "S" && rightSide.Type == "S")
             {
-                var output = leftSide.Value + rightSide.Value;
+                var output = rightSide.Value + leftSide.Value;
                 helper.Value = output;
                 helper.Type = "S";
             }
@@ -250,7 +313,6 @@ namespace PLC_Lab9
             {
                 var output = bool.Parse(leftSide.Value) && bool.Parse(rightSide.Value);
                 helper.Value = output.ToString();
-                helper.Type = "B";
 
             }
             stack.Push(helper);
@@ -258,24 +320,116 @@ namespace PLC_Lab9
 
         public void OR()
         {
+            Helper helper = new();
+            var leftSide = stack.Pop();
+            var rightSide = stack.Pop();
 
+            if (leftSide.Type == "B" || rightSide.Type == "B")
+            {
+                var output = bool.Parse(leftSide.Value) && bool.Parse(rightSide.Value);
+                helper.Value = output.ToString();
+
+            }
+            stack.Push(helper);
         }
         public void GT()
         {
+            Helper helper = new();
+            var leftSide = stack.Pop();
+            var rightSide = stack.Pop();
 
+            if ((leftSide.Type == "I" || leftSide.Type == "F") && (rightSide.Type == "F"||rightSide.Type == "I"))
+            {
+                var output = decimal.Parse(rightSide.Value) > decimal.Parse(leftSide.Value);
+                helper.Value = output.ToString();
+                stack.Push(helper);
+            }
         }
         public void LT()
         {
+            Helper helper = new();
+            var leftSide = stack.Pop();
+            var rightSide = stack.Pop();
 
+            if ((leftSide.Type == "I" || leftSide.Type == "F") && (rightSide.Type == "F" || rightSide.Type == "I"))
+            {
+                var output = decimal.Parse(rightSide.Value) < decimal.Parse(leftSide.Value);
+                helper.Value = output.ToString();
+                stack.Push(helper);
+            }
         }
 
         public void EQ()
         {
+            Helper helper = new();
+            var leftSide = stack.Pop();
+            var rightSide = stack.Pop();
 
+            if((leftSide.Type == "I" || leftSide.Type == "F") && (rightSide.Type == "I" || rightSide.Type == "F"))
+            {
+                if(leftSide.Value == rightSide.Value)
+                {
+                    helper.Value = "True";
+                }
+                else
+                {
+                    helper.Value = "False";
+                }
+            }
+            else if(leftSide.Type == "S")
+            {
+                if(leftSide.Value == rightSide.Value)
+                {
+                    helper.Value = "True";
+                }
+                else
+                {
+                    helper.Value = "False";
+                }
+            }
+            helper.Type = "B";
+            stack.Push(helper);
         }
         public void NOT()
         {
+            Helper helper = new();
+            var value = stack.Pop();
+            if (value.Type == "B")
+            {
+                var output = !bool.Parse(value.Value);
+                helper.Value = output.ToString();
+                stack.Push(helper);
+            }
+        }
 
+        public void ITOF()
+        {
+            Helper helper = new();
+            var value = stack.Pop();
+            if(value.Type == "I")
+            {
+                helper.Type = "F";
+                helper.Value = float.Parse(value.Value).ToString() ;
+                stack.Push(helper);
+            }
+        }
+        public void Save(string input)
+        {
+            var val = stack.Pop();
+            if (variables.ContainsKey(input))
+            {
+                variables[input] = val;
+            }
+            else
+                variables.Add(input, val);
+        }
+
+        public void Load(string input)
+        {
+            if (variables.ContainsKey(input))
+            {
+                stack.Push(variables[input]);
+            }
         }
     }
 }
