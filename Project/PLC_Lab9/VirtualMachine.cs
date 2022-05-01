@@ -323,10 +323,10 @@ namespace PLC_Lab9
             Helper helper = new();
             var leftSide = stack.Pop();
             var rightSide = stack.Pop();
-
+            helper.Type = "B";
             if (leftSide.Type == "B" || rightSide.Type == "B")
             {
-                var output = bool.Parse(leftSide.Value) && bool.Parse(rightSide.Value);
+                var output = bool.Parse(leftSide.Value) || bool.Parse(rightSide.Value);
                 helper.Value = output.ToString();
 
             }
