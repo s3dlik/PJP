@@ -11,28 +11,41 @@ namespace PLC_Lab9
         private Stack<Helper> stack = new Stack<Helper>();
         private List<string> code = new List<string>();
         private Dictionary<string, Helper> variables = new();
+        private Dictionary<int, int> labels = new();
+        int counter = 0;
+        int labelCounter = 0;
         public VirtualMachine(string code)
         {
             this.code=code.Split("\n\r".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).ToList();
         }
         public void Run()
         {
-
-            foreach(var instruction in this.code)
+            for (; counter < code.Count; counter++)
             {
-                string[] identifier;
-                if (instruction.Contains("\""))
+                var tmp = code[counter];
+                if (tmp.StartsWith("label"))
                 {
-                    var parts = instruction.Split("\"");
+                    var label = tmp.Split(" ");
+                    Label(label[1]);
+                }
+            }
+
+            counter = 0;
+            for(; counter < code.Count; counter++)
+            {
+                var tmp = code[counter];
+                string[] identifier;
+                if (tmp.Contains("\""))
+                {
+                    var parts = tmp.Split("\"");
                     identifier = parts[0].Split(' ');
                     identifier[2] = parts[1];
 
                 }
                 else
                 {
-                    identifier= instruction.Split(" ");
+                    identifier= tmp.Split(" ");
                 }
-                var word = instruction.Split(" ")[0];
 
                 switch (identifier[0])
                 {
@@ -40,7 +53,7 @@ namespace PLC_Lab9
                         Push(identifier);
                         break;
                     case "print":
-                        var value = instruction.Split(" ")[1];
+                        var value = tmp.Split(" ")[1];
                         Print(value);
                         break;
                     case "add":
@@ -68,13 +81,13 @@ namespace PLC_Lab9
                         Concat();
                         break;
                     case "read":
-
                         Read(identifier[1]);
                         break;
                     case "gt":
                         GT();
                         break;
                     case "label":
+                        Label(identifier[1]);
                         break;
                     case "save":
                         Save(identifier[1]);
@@ -96,6 +109,13 @@ namespace PLC_Lab9
                         break;
                     case "lt":
                         LT();
+                        break;
+                    case "jmp":
+                        
+                        JMP(identifier[1]);
+                        break;
+                    case "fjmp":
+                        FJMP(identifier[1]);
                         break;
 
                 }
@@ -337,6 +357,7 @@ namespace PLC_Lab9
             Helper helper = new();
             var leftSide = stack.Pop();
             var rightSide = stack.Pop();
+            helper.Type = "B";
 
             if ((leftSide.Type == "I" || leftSide.Type == "F") && (rightSide.Type == "F"||rightSide.Type == "I"))
             {
@@ -350,7 +371,7 @@ namespace PLC_Lab9
             Helper helper = new();
             var leftSide = stack.Pop();
             var rightSide = stack.Pop();
-
+            helper.Type = "B";
             if ((leftSide.Type == "I" || leftSide.Type == "F") && (rightSide.Type == "F" || rightSide.Type == "I"))
             {
                 var output = decimal.Parse(rightSide.Value) < decimal.Parse(leftSide.Value);
@@ -364,8 +385,8 @@ namespace PLC_Lab9
             Helper helper = new();
             var leftSide = stack.Pop();
             var rightSide = stack.Pop();
-
-            if((leftSide.Type == "I" || leftSide.Type == "F") && (rightSide.Type == "I" || rightSide.Type == "F"))
+            helper.Type = "B";
+            if ((leftSide.Type == "I" || leftSide.Type == "F") && (rightSide.Type == "I" || rightSide.Type == "F"))
             {
                 if(leftSide.Value == rightSide.Value)
                 {
@@ -406,11 +427,57 @@ namespace PLC_Lab9
         {
             Helper helper = new();
             var value = stack.Pop();
-            if(value.Type == "I")
-            {
-                helper.Type = "F";
+            if(value.Type == "I") { 
                 helper.Value = float.Parse(value.Value).ToString() ;
                 stack.Push(helper);
+            }
+        }
+
+       
+        public void Label(string input) {
+            int tmp = int.Parse(input);
+            if (labels.ContainsKey(tmp))
+            {
+                labels[tmp] = counter;
+            }
+            else
+            {
+                labels.Add(tmp, counter);
+            }
+        }
+        public void JMP(string item)
+        {
+            int itemChange = int.Parse(item);
+            if (labels.ContainsKey(itemChange))
+            {
+                labels.TryGetValue(itemChange, out counter);
+            }
+            else
+            {
+                Console.WriteLine("label id not found");
+            }
+        }
+        public void FJMP(string item)
+        {
+            int itemChange = int.Parse(item);
+            var value = stack.Pop();
+            if(value.Type == "B")
+            {
+                if(value.Value == "False")
+                {
+                    if (labels.ContainsKey(itemChange))
+                    {
+                        labels.TryGetValue(itemChange, out counter);
+                    }
+                    else
+                    {
+                        Console.WriteLine("label id not found");
+                    }
+                }
+            }
+            else
+            {
+                Console.WriteLine("fjmp error");
             }
         }
         public void Save(string input)

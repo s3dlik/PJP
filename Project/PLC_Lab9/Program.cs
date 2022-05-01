@@ -10,11 +10,11 @@ namespace PLC_Lab9
 {
     public class Program
     {
-
+        //check this before showing https://github.com/antlr/antlr4/blob/master/doc/index.md
         public static void Main(string[] args)
         {
             Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
-            var fileName = "input2.txt";
+            var fileName = "input3.txt";
             Console.WriteLine("Parsing: " + fileName);
             var inputFile = new StreamReader(fileName);
             AntlrInputStream input = new AntlrInputStream(inputFile);
